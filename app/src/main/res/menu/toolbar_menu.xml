@@ -1,0 +1,19 @@
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.cocktail_db.ScrollingActivity">
+    <item
+        android:id="@+id/search_button"
+        android:orderInCategory="100"
+        android:title="Search Cocktails"
+        android:icon="@drawable/icon_search"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/favourites"
+        android:orderInCategory="100"
+        android:title="View Favourites"
+        android:icon="@drawable/icon_favorite"
+        app:showAsAction="always"/>
+</menu>

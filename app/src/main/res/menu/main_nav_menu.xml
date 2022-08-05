@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group>
+
+        <item
+            android:id="@+id/nav_title"
+            android:orderInCategory="100"
+            android:title=""
+            app:showAsAction="always"
+            android:icon="@drawable/icon_cocktail_small"
+        />
+        <item
+            android:id="@+id/nav_author_version"
+            android:orderInCategory="100"
+            android:title=""
+            app:showAsAction="always"
+            />
+    </group>
+    <item
+        android:id="@+id/nav_favourites"
+        android:orderInCategory="100"
+        android:title="View Favourites"
+        android:icon="@drawable/icon_favorite"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/nav_home"
+        android:orderInCategory="100"
+        android:title="Main Page"
+        android:icon="@drawable/icon_home"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/nav_close"
+        android:orderInCategory="100"
+        android:title="Close"
+        android:icon="@drawable/icon_close"
+        app:showAsAction="always"
+        />
+</menu>
