@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         TextView title = findViewById(R.id.title);
@@ -42,9 +41,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
         ImageView imageView = (ImageView) findViewById(R.id.main_nav_menu);
         navigationView = (NavigationView) findViewById(R.id.main_nav);
-        Menu navMenu = navigationView.getMenu();
-        MenuItem navTitle = navMenu.findItem(R.id.nav_title);
-        navTitle.setTitle("Main Page NateYach - 1.0");
+        navMenuSetup setup = new navMenuSetup(navigationView,"Main Page","Nate Yach - 1.0");
 
 
         imageView.setOnClickListener(new View.OnClickListener() {

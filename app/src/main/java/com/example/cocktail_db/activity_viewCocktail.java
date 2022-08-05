@@ -24,10 +24,10 @@ public class activity_viewCocktail extends AppCompatActivity {
         binding = ViewCocktailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Toolbar toolbar = binding.toolbar;
-        setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-        toolBarLayout.setTitle(getTitle());
+        //Toolbar toolbar = binding.toolbar_main;
+        //setSupportActionBar(toolbar);
+       // CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
+       // toolBarLayout.setTitle(getTitle());
 
         //TODO
         /* -Set a button to change from a heart to an "X" when cocktail is favorited
