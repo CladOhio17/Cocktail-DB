@@ -38,12 +38,15 @@ public class MainActivity extends AppCompatActivity {
         TextView title = findViewById(R.id.title);
         title.setText("Cocktails");
 
+
+        //initializations for the drawer to work
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
         ImageView imageView = (ImageView) findViewById(R.id.main_nav_menu);
         navigationView = (NavigationView) findViewById(R.id.main_nav);
         navMenuSetup setup = new navMenuSetup(navigationView,"Main Page","Nate Yach - 1.0");
 
 
+        //a button on the tool bar to open the drawer
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //a click listener for the buttons within the drawer
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -71,12 +75,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    //inflates the toolbar menu onto the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, menu);
         return true;
     }
+    //buttons for the toolbar and their actions
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.search_button:
