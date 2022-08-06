@@ -1,4 +1,4 @@
-package com.example.cocktail_db;
+package com.example.cocktail_db.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import com.example.cocktail_db.R;
+import com.example.cocktail_db.library.navMenuSetup;
+import com.example.cocktail_db.fragments.searchFragment;
+import com.example.cocktail_db.library.randomCocktail;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     searchFragment fragment = new searchFragment();
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    randomCocktail retrieve = new randomCocktail(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.main_nav_menu);
         navigationView = (NavigationView) findViewById(R.id.main_nav);
         navMenuSetup setup = new navMenuSetup(navigationView,"Main Page","Nate Yach - 1.0");
+
+        retrieve.execute();
+
+
 
 
         //a button on the tool bar to open the drawer
@@ -67,14 +74,17 @@ public class MainActivity extends AppCompatActivity {
 
                         return true;
                     case R.id.nav_home:
-                        finish();
+                        drawerLayout.closeDrawer(GravityCompat.START);
                 }
                 return true;
             }
         });
 
 
+
+
     }
+
     //inflates the toolbar menu onto the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.search_button:
+
                 FragmentManager fm =  getSupportFragmentManager();
                 fm.beginTransaction().replace(R.id.main_fragment,searchFragment.class,null).commit();
 

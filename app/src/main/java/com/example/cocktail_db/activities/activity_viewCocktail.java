@@ -1,4 +1,4 @@
-package com.example.cocktail_db;
+package com.example.cocktail_db.activities;
 
 import android.os.Bundle;
 

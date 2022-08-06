@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Javadoc" pattern="src[Cocktail-DB*]:*..*" />
+</component>
