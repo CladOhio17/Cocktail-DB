@@ -1,5 +1,8 @@
 package com.example.cocktail_db.fragments;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,9 +66,13 @@ public class searchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 FragmentManager fm =  getActivity().getSupportFragmentManager();
-                fm.beginTransaction().replace(R.id.main_page_container, loadingFragment.class,null).commit();
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("cocktailData", Context.MODE_PRIVATE);
+                sharedPreferences.edit().clear().commit();
+                Intent intent = new Intent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 searchCocktail = new searchCocktailName(fragment, searchView.getQuery().toString());
                 searchCocktail.execute();
+
                 return false;
             }
 

@@ -8,8 +8,12 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.cocktail_db.R;
 import com.example.cocktail_db.activities.activity_viewCocktail;
+import com.example.cocktail_db.fragments.loadingFragment;
+import com.example.cocktail_db.fragments.viewInfoFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,9 +35,15 @@ public class infoGrabber extends AsyncTask<Void, Void, Void> {
         this.context = context;
         this.id = id;
 
+
     }
 
-
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        FragmentManager fm =  context.getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.main_page_container, loadingFragment.class,null).commit();
+    }
 
     @Override
     protected Void doInBackground(Void... voids) {
@@ -59,7 +69,6 @@ public class infoGrabber extends AsyncTask<Void, Void, Void> {
             object = jsonArray.getJSONObject(x);
             URL imgURL = new URL(object.getString("strDrinkThumb"));
 
-            Log.v("ID",""+object.getString("idDrink"));
             urlConnection2 = (HttpURLConnection) imgURL.openConnection();
             bitmap = BitmapFactory.decodeStream(urlConnection2.getInputStream());
             urlConnection2.disconnect();
@@ -73,13 +82,15 @@ public class infoGrabber extends AsyncTask<Void, Void, Void> {
         urlConnection.disconnect();
 
     }
-
+        FragmentManager fm =  context.getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.main_page_container, viewInfoFragment.class,null).commit();
         return null;
     }
 
     @Override
     protected void onPostExecute(Void unused) {
         int i = 1;
+
         String instruc = "";
         String infoString = "";
 
@@ -93,6 +104,7 @@ public class infoGrabber extends AsyncTask<Void, Void, Void> {
         TextView src = context.findViewById(R.id.img_source);
 
         try {
+
             img.setImageBitmap(bitmap);
             title.setText(object.getString("strDrink"));
             IngredientsTitle.setText("Ingredients");

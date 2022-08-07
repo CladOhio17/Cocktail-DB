@@ -1,5 +1,6 @@
 package com.example.cocktail_db.library;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,9 +27,9 @@ public class randomCocktail extends AsyncTask<Void, Void, Void> {
     ArrayList<String> cocktailInfo = new ArrayList<>();
     main_listAdapter adapter;
     String result;
-    temp t = temp.getInstance();
     loadingFragment fragment = new loadingFragment();
     main_contentView contentView =  new main_contentView();
+    SharedPreferences sharedPreferences;
 
 
     public randomCocktail(MainActivity context){
@@ -38,6 +39,7 @@ public class randomCocktail extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        sharedPreferences = context.getSharedPreferences("cocktailData", Context.MODE_PRIVATE);
         FragmentManager fm =  context.getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.main_page_container, loadingFragment.class,null).commit();
 
@@ -50,8 +52,10 @@ public class randomCocktail extends AsyncTask<Void, Void, Void> {
      */
     @Override
     protected Void doInBackground(Void... voids) {
+
+        FragmentManager fm =  context.getSupportFragmentManager();
         HttpURLConnection urlConnection = null;
-        for (int x=0;x<15;x++){
+        for (int x=0;x<30;x++){
             try {
                 URL url = new URL("https://www.thecocktaildb.com/api/json/v1/1/random.php");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -66,6 +70,8 @@ public class randomCocktail extends AsyncTask<Void, Void, Void> {
                 result = sb.toString();
                 cocktailInfo.add(result);
 
+
+
                 reader.close();
                 response.close();
             } catch (Exception e){
@@ -75,21 +81,19 @@ public class randomCocktail extends AsyncTask<Void, Void, Void> {
 
             }
             if (isCancelled() == true){
-                FragmentManager fm =  context.getSupportFragmentManager();
                 fm.beginTransaction().replace(R.id.main_page_container, loadingFragment.class,null).commit();
             }
-            FragmentManager fm = context.getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.main_page_container, mainList_Fragment.class,null).commit();
-            ListView listView = (ListView) context.findViewById(R.id.main_list);
-        }
 
-        t.setArray(cocktailInfo);
+
+        }
+        fm.beginTransaction().replace(R.id.main_page_container, mainList_Fragment.class,null).commit();
         return null;
     }
 
     @Override
     protected void onPostExecute(Void unused) {
         super.onPostExecute(unused);
+
         contentView.inflateList(context, cocktailInfo);
 
         return;

@@ -47,8 +47,6 @@ public class activity_viewCocktail extends AppCompatActivity {
 
         Intent intent = getIntent();
         int id = intent.getIntExtra("ID", 0);
-        FragmentManager fm =  getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.main_page_container, viewInfoFragment.class,null).commit();
         infoGrabber grab = new infoGrabber(this, id);
         setContentView(R.layout.view_cocktail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -65,7 +63,6 @@ public class activity_viewCocktail extends AppCompatActivity {
 
 
         grab.execute();
-
         //a button on the tool bar to open the drawer
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

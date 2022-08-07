@@ -7,22 +7,34 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.example.cocktail_db.R;
 import com.example.cocktail_db.fragments.loadingFragment;
 import com.example.cocktail_db.library.main_contentView;
+import com.example.cocktail_db.library.main_listAdapter;
 import com.example.cocktail_db.library.navMenuSetup;
 import com.example.cocktail_db.fragments.searchFragment;
 import com.example.cocktail_db.library.randomCocktail;
 import com.example.cocktail_db.library.temp;
 import com.google.android.material.navigation.NavigationView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     /*TODO
@@ -37,22 +49,23 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     randomCocktail retrieve;
     searchFragment fragment = new searchFragment();
+    SharedPreferences sharedPreferences;
     temp t = temp.getInstance();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
+
         retrieve = new randomCocktail(this);
-        retrieve.execute();
+
+        sharedPreferences = getSharedPreferences("cocktailData", Context.MODE_PRIVATE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         TextView title = findViewById(R.id.title);
         title.setText("The Cocktail DB");
 
-        FragmentManager fm =  getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.main_page_container, loadingFragment.class,null).commit();
+
 
 
         //initializations for the drawer to work
@@ -93,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
+        retrieve.execute();
 
 
     }
@@ -127,7 +140,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //main_contentView view = new main_contentView();
-        //view.inflateList(this,t.getArray());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sharedPreferences.edit().clear().commit();
     }
 }
