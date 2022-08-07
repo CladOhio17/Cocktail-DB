@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/main_page_container"
                 android:layout_below="@+id/main_fragment"
-                android:background="@color/black"></FrameLayout>
+                android:background="#121212"></FrameLayout>
 
 
 
@@ -34,7 +34,8 @@
         android:id="@+id/main_nav"
         android:layout_below="@+id/toolbar_main"
         android:layout_gravity="start"
-        app:menu="@menu/main_nav_menu">
+        app:menu="@menu/main_nav_menu"
+        android:background="#ebebeb">
 
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

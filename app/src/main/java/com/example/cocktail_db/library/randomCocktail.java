@@ -1,22 +1,17 @@
 package com.example.cocktail_db.library;
 
-import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.cocktail_db.R;
 import com.example.cocktail_db.activities.MainActivity;
 import com.example.cocktail_db.fragments.loadingFragment;
 import com.example.cocktail_db.fragments.mainList_Fragment;
-import com.example.cocktail_db.fragments.searchFragment;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -31,7 +26,10 @@ public class randomCocktail extends AsyncTask<Void, Void, Void> {
     ArrayList<String> cocktailInfo = new ArrayList<>();
     main_listAdapter adapter;
     String result;
+    temp t = temp.getInstance();
     loadingFragment fragment = new loadingFragment();
+    main_contentView contentView =  new main_contentView();
+
 
     public randomCocktail(MainActivity context){
         this.context = context;
@@ -40,7 +38,6 @@ public class randomCocktail extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
         FragmentManager fm =  context.getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.main_page_container, loadingFragment.class,null).commit();
 
@@ -67,53 +64,33 @@ public class randomCocktail extends AsyncTask<Void, Void, Void> {
                     sb.append(line + "\n" ) ;
                 }
                 result = sb.toString();
-                JSONObject jsonObject = new JSONObject(result);
-                JSONArray jsonArray = jsonObject.getJSONArray("drinks");
-                for(int i = 0; i<jsonArray.length();i++){
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    String str = object.getString("strDrink");
+                cocktailInfo.add(result);
 
-                    for (String temp: cocktailInfo){
-                        if (temp == str){
-                            object.remove("strDrink");
-                        }
-                    }
-                    cocktailInfo.add(str);
-                    Log.v("Cocktail:",str);
-
-                }
                 reader.close();
                 response.close();
             } catch (Exception e){
 
             }finally {
                 urlConnection.disconnect();
+
             }
+            if (isCancelled() == true){
+                FragmentManager fm =  context.getSupportFragmentManager();
+                fm.beginTransaction().replace(R.id.main_page_container, loadingFragment.class,null).commit();
+            }
+            FragmentManager fm = context.getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.main_page_container, mainList_Fragment.class,null).commit();
+            ListView listView = (ListView) context.findViewById(R.id.main_list);
         }
 
-        FragmentManager fm = context.getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.main_page_container, mainList_Fragment.class,null).commit();
+        t.setArray(cocktailInfo);
         return null;
     }
 
     @Override
     protected void onPostExecute(Void unused) {
         super.onPostExecute(unused);
-
-        String str;
-        adapter = new main_listAdapter(context,cocktailInfo);
-        ListView listView = (ListView) context.findViewById(R.id.main_list);
-        listView.setAdapter(adapter);
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(result);
-            JSONArray jsonArray = jsonObject.getJSONArray("drinks");
-            for(int i = 0; i<jsonArray.length();i++){
-                adapter.notifyDataSetChanged();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        contentView.inflateList(context, cocktailInfo);
 
         return;
 

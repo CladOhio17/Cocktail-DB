@@ -6,6 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,9 +16,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.cocktail_db.R;
+import com.example.cocktail_db.fragments.loadingFragment;
+import com.example.cocktail_db.library.main_contentView;
 import com.example.cocktail_db.library.navMenuSetup;
 import com.example.cocktail_db.fragments.searchFragment;
 import com.example.cocktail_db.library.randomCocktail;
+import com.example.cocktail_db.library.temp;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,19 +32,27 @@ public class MainActivity extends AppCompatActivity {
        -Display List of Cocktails
          */
 
-    searchFragment fragment = new searchFragment();
+
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    randomCocktail retrieve = new randomCocktail(this);
+    randomCocktail retrieve;
+    searchFragment fragment = new searchFragment();
+    temp t = temp.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
+        retrieve = new randomCocktail(this);
+        retrieve.execute();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         TextView title = findViewById(R.id.title);
-        title.setText("Cocktails");
+        title.setText("The Cocktail DB");
+
+        FragmentManager fm =  getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.main_page_container, loadingFragment.class,null).commit();
 
 
         //initializations for the drawer to work
@@ -48,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.main_nav);
         navMenuSetup setup = new navMenuSetup(navigationView,"Main Page","Nate Yach - 1.0");
 
-        retrieve.execute();
 
 
 
@@ -83,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     }
 
     //inflates the toolbar menu onto the toolbar
@@ -105,4 +118,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        retrieve.cancel(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //main_contentView view = new main_contentView();
+        //view.inflateList(this,t.getArray());
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.cocktail_db.library;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +17,13 @@ public class main_listAdapter extends BaseAdapter{
 
     private ArrayList<String> data;
     Context context;
+    SharedPreferences sp;
+    int id;
 
     public main_listAdapter(Context context, ArrayList<String> data) {
         this.context = context;
         this.data = data;
-
+        this.id = id;
     }
     @Override
     public int getCount() {

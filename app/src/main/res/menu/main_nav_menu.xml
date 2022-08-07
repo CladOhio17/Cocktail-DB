@@ -21,7 +21,7 @@
         android:id="@+id/nav_favourites"
         android:orderInCategory="100"
         android:title="View Favourites"
-        android:icon="@drawable/icon_favorite"
+        android:icon="@drawable/icons_favorite_selected"
         app:showAsAction="always"/>
     <item
         android:id="@+id/nav_home"

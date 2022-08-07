@@ -8,9 +8,10 @@
         android:text="temp"
         android:gravity="center"
         android:textColor="@color/white"
-        android:background="#6C6C6C"
+        android:background="#181818"
         android:id="@+id/main_cocktail_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:padding="10dp"
+        android:textColorHighlight="@color/purple_500"
         ></TextView>
 </RelativeLayout>
