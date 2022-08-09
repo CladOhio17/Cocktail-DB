@@ -9,13 +9,25 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cocktail_db.R;
 
+/**
+ * create an instance of this fragment.
+ */
 public class viewInfoFragment extends Fragment {
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

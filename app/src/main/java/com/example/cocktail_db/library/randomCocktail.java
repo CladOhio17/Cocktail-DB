@@ -3,9 +3,7 @@ package com.example.cocktail_db.library;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.ListView;
+
 
 import androidx.fragment.app.FragmentManager;
 
@@ -21,6 +19,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * Gets a list of 30 random cocktails to make main page look pretty
+ */
 public class randomCocktail extends AsyncTask<Void, Void, Void> {
 
     MainActivity context;
@@ -32,6 +33,9 @@ public class randomCocktail extends AsyncTask<Void, Void, Void> {
     SharedPreferences sharedPreferences;
 
 
+    /**
+     * @param context the activity that is to be changed
+     */
     public randomCocktail(MainActivity context){
         this.context = context;
     }
@@ -72,6 +76,7 @@ public class randomCocktail extends AsyncTask<Void, Void, Void> {
 
 
 
+
                 reader.close();
                 response.close();
             } catch (Exception e){
@@ -94,7 +99,7 @@ public class randomCocktail extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void unused) {
         super.onPostExecute(unused);
 
-        contentView.inflateList(context, cocktailInfo);
+        contentView.inflateList(context, cocktailInfo,1);
 
         return;
 

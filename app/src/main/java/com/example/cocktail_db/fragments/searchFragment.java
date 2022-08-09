@@ -15,8 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.cocktail_db.R;
+import com.example.cocktail_db.activities.MainActivity;
 import com.example.cocktail_db.library.searchCocktailName;
 
+/**
+ * create an instance of this fragment.
+ */
 public class searchFragment extends Fragment {
     Fragment fragment = this;
     searchCocktailName searchCocktail;
@@ -41,6 +45,11 @@ public class searchFragment extends Fragment {
         return newView;
     }
 
+    /**
+     * Once view is created allows search view to have interactions
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
@@ -66,10 +75,6 @@ public class searchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 FragmentManager fm =  getActivity().getSupportFragmentManager();
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences("cocktailData", Context.MODE_PRIVATE);
-                sharedPreferences.edit().clear().commit();
-                Intent intent = new Intent();
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 searchCocktail = new searchCocktailName(fragment, searchView.getQuery().toString());
                 searchCocktail.execute();
 

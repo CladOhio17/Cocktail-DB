@@ -8,34 +8,22 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import com.example.cocktail_db.R;
-import com.example.cocktail_db.fragments.loadingFragment;
-import com.example.cocktail_db.library.main_contentView;
-import com.example.cocktail_db.library.main_listAdapter;
 import com.example.cocktail_db.library.navMenuSetup;
 import com.example.cocktail_db.fragments.searchFragment;
 import com.example.cocktail_db.library.randomCocktail;
-import com.example.cocktail_db.library.temp;
 import com.google.android.material.navigation.NavigationView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
+/**
+    Initial Activity when app is opened
+ */
 public class MainActivity extends AppCompatActivity {
     /*TODO
        -Fix Coloring of nav menu
@@ -50,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
     randomCocktail retrieve;
     searchFragment fragment = new searchFragment();
     SharedPreferences sharedPreferences;
-    temp t = temp.getInstance();
+
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * @param menu
+     * @return
+     */
     //inflates the toolbar menu onto the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.toolbar_menu, menu);
         return true;
     }
+
+    /**
+     * @param item
+     * @return
+     */
     //buttons for the toolbar and their actions
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -140,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        SharedPreferences sharedPreferences = getSharedPreferences("cocktailData", Context.MODE_PRIVATE);
+        sharedPreferences.edit().putInt("isMain", 1).commit();
     }
 
     @Override

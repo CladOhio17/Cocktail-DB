@@ -1,8 +1,6 @@
 package com.example.cocktail_db.library;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +11,19 @@ import com.example.cocktail_db.R;
 
 import java.util.ArrayList;
 
+/**
+ * Custom list adapter to set the text of the list
+ */
 public class main_listAdapter extends BaseAdapter{
 
     private ArrayList<String> data;
     Context context;
-    SharedPreferences sp;
     int id;
 
+    /**
+     * @param context context of the adapter
+     * @param data an array of strings to be contained in the list
+     */
     public main_listAdapter(Context context, ArrayList<String> data) {
         this.context = context;
         this.data = data;

@@ -2,19 +2,15 @@ package com.example.cocktail_db.library;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
 import com.example.cocktail_db.R;
 import com.example.cocktail_db.activities.activity_viewCocktail;
 import com.example.cocktail_db.fragments.loadingFragment;
 import com.example.cocktail_db.fragments.viewInfoFragment;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -22,8 +18,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
+/**
+ * An AsyncTask to grab a json object from a url with given id
+ */
 public class infoGrabber extends AsyncTask<Void, Void, Void> {
     activity_viewCocktail context;
     int id;
@@ -38,6 +36,9 @@ public class infoGrabber extends AsyncTask<Void, Void, Void> {
 
     }
 
+    /**
+     * inflates a loading fragment
+     */
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -45,6 +46,11 @@ public class infoGrabber extends AsyncTask<Void, Void, Void> {
         fm.beginTransaction().replace(R.id.main_page_container, loadingFragment.class,null).commit();
     }
 
+    /**
+     * gets json object from url where i is equal to id
+     * @param voids
+     * @return
+     */
     @Override
     protected Void doInBackground(Void... voids) {
 
@@ -87,6 +93,10 @@ public class infoGrabber extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    /**
+     * Sets the text on the fragment
+     * @param unused
+     */
     @Override
     protected void onPostExecute(Void unused) {
         int i = 1;

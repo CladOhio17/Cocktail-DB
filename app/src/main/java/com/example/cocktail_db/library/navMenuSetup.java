@@ -2,8 +2,6 @@ package com.example.cocktail_db.library;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-
 import com.example.cocktail_db.R;
 import com.google.android.material.navigation.NavigationView;
 /*

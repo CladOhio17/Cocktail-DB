@@ -4,34 +4,33 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
 import com.example.cocktail_db.R;
-import com.example.cocktail_db.activities.MainActivity;
 import com.example.cocktail_db.activities.activity_viewCocktail;
-import com.example.cocktail_db.fragments.mainList_Fragment;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Creates an array of strings from a json object and adds them to a list, saves id and list position
+ * to a sharedpref so it can be recalled if needed
+ */
 public class main_contentView extends AppCompatActivity {
     main_listAdapter adapter;
     ArrayList<String> cocktailInfo = new ArrayList<>();
-    temp t = temp.getInstance();
     int id;
 
-    public void inflateList(Activity context, ArrayList<String> Cocktail){
+    /**
+     * @param context The activity that this method is adding to
+     * @param Cocktail an array containing json objects
+     * @param isMain if the context is coming from the main page (should be removed)
+     */
+    public void inflateList(Activity context, ArrayList<String> Cocktail, int isMain){
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("cocktailData", Context.MODE_PRIVATE);
         adapter = new main_listAdapter(context,cocktailInfo);
@@ -43,14 +42,15 @@ public class main_contentView extends AppCompatActivity {
 
         try {
             for (int i = 0; i<Cocktail.size();i++) {
-                Edit.putInt("size", Cocktail.size()).commit();
+
                 jsonObject = new JSONObject(Cocktail.get(i));
                 JSONArray jsonArray = jsonObject.getJSONArray("drinks");
                 for (int x = 0; x < jsonArray.length(); x++) {
                     JSONObject object = jsonArray.getJSONObject(x);
                     String str = object.getString("strDrink");
                     id = Integer.parseInt(object.getString("idDrink"));
-                    Edit.putString("ID"+i,object.getString("idDrink")).commit();
+                    int row=i+x;
+
                     for (String temp : cocktailInfo) {
                         if (temp == str) {
                             object.remove("strDrink");
@@ -58,7 +58,17 @@ public class main_contentView extends AppCompatActivity {
                     }
                     cocktailInfo.add(str);
                     adapter.notifyDataSetChanged();
-                    t.setArray(cocktailInfo);
+
+                    if (isMain == 1){
+
+                        Edit.putInt("MainSize", adapter.getCount()).commit();
+                        Edit.putString("MainID"+row,object.getString("idDrink")).commit();
+                    }else{
+                        Edit.putInt("isMain", 0).commit();
+                        Edit.putInt("size", adapter.getCount()).commit();
+                        Edit.putString("ID"+row,object.getString("idDrink")).commit();
+                    }
+
 
                 }
             }
@@ -71,10 +81,23 @@ public class main_contentView extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int ID = 0;
                 Intent intent = new Intent(context, activity_viewCocktail.class);
-                int size = sharedPreferences.getInt("size",0);
+                int size;
+                int isInitial = sharedPreferences.getInt("isMain",0);
+                if (isInitial == 1){
+                    size = sharedPreferences.getInt("MainSize",0);
+                }else {
+                    size = sharedPreferences.getInt("size",0);
+                }
                 for (int j = 0; j <size ; j++) {
                     if (j==i){
-                       ID = Integer.parseInt(sharedPreferences.getString("ID"+j,null));
+                        if (isInitial == 1){
+                            ID = Integer.parseInt(sharedPreferences.getString("MainID"+j,null));
+
+                        }else {
+                            ID = Integer.parseInt(sharedPreferences.getString("ID"+j,null));
+
+                        }
+
                     }
                 }
                 intent.putExtra("ID",ID);

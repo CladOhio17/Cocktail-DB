@@ -40,7 +40,9 @@ public class activity_viewCocktail extends AppCompatActivity {
     Fragment viewFragment = new viewInfoFragment();
 
 
-
+    /**
+     * @param savedInstanceState Saved State
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

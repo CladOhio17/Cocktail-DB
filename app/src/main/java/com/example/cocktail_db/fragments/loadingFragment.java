@@ -12,17 +12,24 @@ import com.example.cocktail_db.R;
 import com.example.cocktail_db.activities.MainActivity;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link loadingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class loadingFragment extends Fragment {
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

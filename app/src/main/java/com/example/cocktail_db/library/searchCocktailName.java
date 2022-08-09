@@ -1,13 +1,14 @@
 package com.example.cocktail_db.library;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.cocktail_db.R;
+import com.example.cocktail_db.activities.MainActivity;
 import com.example.cocktail_db.fragments.loadingFragment;
 import com.example.cocktail_db.fragments.mainList_Fragment;
 
@@ -18,6 +19,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * Searches cocktails from a url with a given string
+ */
 public class searchCocktailName extends AsyncTask<Void, Void, Void> {
 
     Fragment context;
@@ -26,7 +30,9 @@ public class searchCocktailName extends AsyncTask<Void, Void, Void> {
     String result;
     String name;
     loadingFragment fragment = new loadingFragment();
+    SharedPreferences sharedPreferences;
     main_contentView contentView =  new main_contentView();
+
     public searchCocktailName(Fragment context, String name){
         this.context = context;
         this.name = name;
@@ -39,6 +45,7 @@ public class searchCocktailName extends AsyncTask<Void, Void, Void> {
 
         FragmentManager fm =  context.getActivity().getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.main_page_container, loadingFragment.class,null).commit();
+        sharedPreferences = context.getActivity().getSharedPreferences("cocktailData", Context.MODE_PRIVATE);
 
 
     }
@@ -73,6 +80,8 @@ public class searchCocktailName extends AsyncTask<Void, Void, Void> {
             urlConnection.disconnect();
         }
 
+
+
         FragmentManager fm = context.getActivity().getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.main_page_container, mainList_Fragment.class,null).commit();
         return null;
@@ -81,8 +90,12 @@ public class searchCocktailName extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void unused) {
         super.onPostExecute(unused);
+        if (context.getActivity().getClass().getName().equals(MainActivity.class.getName())) {
+            contentView.inflateList(context.getActivity(), cocktailInfo, 1);
+        }else {
+            contentView.inflateList(context.getActivity(),cocktailInfo,0);
+        }
 
-        contentView.inflateList(context.getActivity(),cocktailInfo);
 
         return;
 
