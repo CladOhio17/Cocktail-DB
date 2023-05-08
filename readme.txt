@@ -1,4 +1,4 @@
-this repository contains the files for the MGI Spring 2022 Project
+this repository contains the files for the MGI Spring 2022 Project - Algonquin College
 
 The app selected for this project is a cocktail DB
 
